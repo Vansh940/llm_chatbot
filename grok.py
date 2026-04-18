@@ -38,7 +38,11 @@ st.set_page_config(page_title="LLM Chatbot", page_icon="🤖", layout="wide")
 # Groq Client Setup
 # ─────────────────────────────────────────────────────────────────────────────
 # Set GROQ_API_KEY in Render environment variables (or .streamlit/secrets.toml locally)
-GROQ_API_KEY = os.environ.get("GROQ_API_KEY", st.secrets.get("GROQ_API_KEY", ""))
+# Fix — replace line 41 with this
+try:
+    GROQ_API_KEY = os.environ.get("GROQ_API_KEY") or st.secrets.get("GROQ_API_KEY", "")
+except Exception:
+    GROQ_API_KEY = os.environ.get("GROQ_API_KEY", "")
 MODEL_NAME   = "llama-3.1-8b-instant"   # fast & free on Groq
 
 @st.cache_resource
